@@ -1,5 +1,6 @@
 package mehani.mehani.wyanbu.com.mehani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
+    String[] items = new String[]{"a1", "a2", "a3"};
+    String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         if (phone.length() != 10) {
             phone.setError("Phone num error");
         } else {
+            number = phone.getText().toString();
             setContentView(R.layout.activity_main_2);
         }
     }
@@ -40,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_main_3);
 
-            String[] items = new String[]{"a1", "a2", "a3"};
 
             Spinner spinner = (Spinner) findViewById(R.id.spinner_city);
 
@@ -48,14 +51,16 @@ public class MainActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_dropdown_item,
                     items);
             spinner.setAdapter(spinnerArrayAdapter);
-
-
-
-
         }
     }
 
     public void done(View view) {
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_city);
+        EditText name = (EditText) findViewById(R.id.input_name);
+        EditText email = (EditText) findViewById(R.id.input_email);
 
+        //items[spinner.getSelectedItemPosition()]
+
+            startActivity(new Intent(this,Home.class));
     }
 }
