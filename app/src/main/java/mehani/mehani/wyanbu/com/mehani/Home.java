@@ -48,10 +48,12 @@ getgridview();
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonObject = response.getJSONArray("");
+                    JSONArray jsonObject = response.getJSONArray("AllCareers");
                     Toast.makeText(getApplicationContext(),jsonObject.length()+"",Toast.LENGTH_LONG).show();
 
                     for(int i = 0; i <jsonObject.length();i++){
+
+
                         items.add(new GridViewitems(R.drawable.homeicon, jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
                     }
 
