@@ -1,5 +1,6 @@
 package mehani.mehani.wyanbu.com.mehani;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
@@ -38,6 +39,10 @@ public class Home extends AppCompatActivity {
 
 
     public List<GridViewitems> getgridview() {
+       final ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setCancelable(false);
+        progress.show();
 
         items = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a1, null, new Response.Listener<JSONObject>() {
@@ -52,9 +57,13 @@ public class Home extends AppCompatActivity {
                     GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item, items);
 
                     gridView.setAdapter(gridViewAdapter);
+                    progress.dismiss();
+
 
 
                 } catch (JSONException e) {
+                    progress.dismiss();
+
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "No Data ", Toast.LENGTH_LONG).show();
                 }
@@ -63,6 +72,8 @@ public class Home extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
+
 
             }
         });
