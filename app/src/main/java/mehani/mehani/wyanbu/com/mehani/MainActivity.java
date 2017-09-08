@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     String[] items = new String[]{"a1", "a2", "a3"};
     String number;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
 
-                        if (true) {
+                        if (false) {
                             setContentView(R.layout.activity_main);
                             EditText phone = (EditText) findViewById(R.id.input_phone);
                             phone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
