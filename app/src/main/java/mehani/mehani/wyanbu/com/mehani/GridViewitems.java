@@ -25,7 +25,6 @@ public class GridViewitems {
     private int id;
 
 
-
     public String getName() {
         return name;
     }

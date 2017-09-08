@@ -1,6 +1,7 @@
 package mehani.mehani.wyanbu.com.mehani;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,7 +40,13 @@ public class Home extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView id = (TextView) view.findViewById(R.id.id_grid);
-                Toast.makeText(getApplicationContext(), i + "-" + id.getText().toString(), Toast.LENGTH_LONG).show();
+                TextView name = (TextView) view.findViewById(R.id.txtname_grid);
+
+                Intent intent = new Intent(getApplicationContext(), Profile.class);
+                intent.putExtra("id", id.getText().toString());
+                intent.putExtra("name", name.getText().toString());
+
+                startActivity(intent);
 
             }
         });
