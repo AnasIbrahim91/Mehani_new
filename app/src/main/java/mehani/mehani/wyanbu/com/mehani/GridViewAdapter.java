@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -36,7 +38,8 @@ public class GridViewAdapter extends ArrayAdapter<GridViewitems> {
         TextView name = (TextView) v.findViewById(R.id.txtname_grid);
         TextView id = (TextView) v.findViewById(R.id.id_grid);
 
-        img.setImageResource(GridViewitems.getImageId());
+      //  img.setImageResource(GridViewitems.getImageId());
+        Picasso.with(getContext()).load(GridViewitems.getImageurl()).into(img);
         name.setText(GridViewitems.getName());
         id.setText(GridViewitems.getId()+"");
 

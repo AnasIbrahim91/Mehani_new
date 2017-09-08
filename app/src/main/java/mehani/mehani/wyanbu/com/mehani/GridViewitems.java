@@ -5,17 +5,26 @@ package mehani.mehani.wyanbu.com.mehani;
  */
 
 public class GridViewitems {
-    private int imageId;
+    private String imageurl;
     private String name;
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    public GridViewitems(String imageurl, String name, int id) {
+        this.imageurl = imageurl;
+        this.name = name;
+        this.id = id;
+    }
+
     private int id;
 
-    public int getImageId() {
-        return imageId;
-    }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
 
     public String getName() {
         return name;
@@ -33,9 +42,5 @@ public class GridViewitems {
         this.id = id;
     }
 
-    public GridViewitems(int imageId, String name, int id) {
-        this.imageId = imageId;
-        this.name = name;
-        this.id = id;
-    }
+
 }

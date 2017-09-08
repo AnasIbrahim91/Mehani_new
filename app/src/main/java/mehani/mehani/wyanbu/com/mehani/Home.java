@@ -1,7 +1,7 @@
 package mehani.mehani.wyanbu.com.mehani;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -31,11 +31,7 @@ public class Home extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
 
 
-
-getgridview();
-        GridViewAdapter gridViewAdapter = new GridViewAdapter(this, R.layout.grid_item, items);
-
-        gridView.setAdapter(gridViewAdapter);
+        getgridview();
 
 
     }
@@ -49,18 +45,18 @@ getgridview();
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonObject = response.getJSONArray("AllCareers");
-                    Toast.makeText(getApplicationContext(),jsonObject.length()+"",Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < jsonObject.length(); i++) {
 
-                    for(int i = 0; i <jsonObject.length();i++){
-
-
-                        items.add(new GridViewitems(R.drawable.homeicon, jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
+                        items.add(new GridViewitems(jsonObject.getJSONObject(i).getString("icon"), jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
                     }
+                    GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item, items);
+
+                    gridView.setAdapter(gridViewAdapter);
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),"No Data ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No Data ", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -72,7 +68,6 @@ getgridview();
         });
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
-
 
 
         return items;
