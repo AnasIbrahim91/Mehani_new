@@ -5,5 +5,5 @@ package mehani.mehani.wyanbu.com.mehani;
  */
 
 public class network {
-    public static final String a1="";
+    public static final String a1="http://mehani.wyanbu.com/Json/GetCareers";
 }
