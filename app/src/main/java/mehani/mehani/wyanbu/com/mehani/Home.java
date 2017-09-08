@@ -3,7 +3,10 @@ package mehani.mehani.wyanbu.com.mehani;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,15 +34,21 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         gridView = (GridView) findViewById(R.id.gridview);
 
-
         getgridview();
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView id = (TextView) view.findViewById(R.id.id_grid);
+                Toast.makeText(getApplicationContext(), i + "-" + id.getText().toString(), Toast.LENGTH_LONG).show();
 
+            }
+        });
 
     }
 
 
     public List<GridViewitems> getgridview() {
-       final ProgressDialog progress = new ProgressDialog(this);
+        final ProgressDialog progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setCancelable(false);
         progress.show();
@@ -51,14 +60,14 @@ public class Home extends AppCompatActivity {
                 try {
                     JSONArray jsonObject = response.getJSONArray("AllCareers");
                     for (int i = 0; i < jsonObject.length(); i++) {
-
-                        items.add(new GridViewitems(jsonObject.getJSONObject(i).getString("icon"), jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
+                        if (jsonObject.getJSONObject(i).getInt("contain_fields") == 1) {
+                            items.add(new GridViewitems(jsonObject.getJSONObject(i).getString("icon"), jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
+                        }
                     }
                     GridViewAdapter gridViewAdapter = new GridViewAdapter(getApplicationContext(), R.layout.grid_item, items);
 
                     gridView.setAdapter(gridViewAdapter);
                     progress.dismiss();
-
 
 
                 } catch (JSONException e) {
