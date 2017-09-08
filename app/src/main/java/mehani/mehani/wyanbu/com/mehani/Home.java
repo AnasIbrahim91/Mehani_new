@@ -49,7 +49,9 @@ getgridview();
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonObject = response.getJSONArray("");
-                    int size = jsonObject.length();
+                    for(int i = 0; i <jsonObject.length();i++){
+
+                    }
 
 
                 } catch (JSONException e) {
