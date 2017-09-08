@@ -49,8 +49,9 @@ getgridview();
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonObject = response.getJSONArray("");
-                    for(int i = 0; i <jsonObject.length();i++){
 
+                    for(int i = 0; i <jsonObject.length();i++){
+                        items.add(new GridViewitems(R.drawable.homeicon, jsonObject.getJSONObject(i).getString("name"), jsonObject.getJSONObject(i).getInt("id")));
                     }
 
 
@@ -70,11 +71,7 @@ getgridview();
         queue.add(request);
 
 
-        items.add(new GridViewitems(R.drawable.homeicon, "anas", 0));
-        items.add(new GridViewitems(R.drawable.homeicon, "anas", 0));
-        items.add(new GridViewitems(R.drawable.homeicon, "anas", 0));
-        items.add(new GridViewitems(R.drawable.homeicon, "anas", 0));
-        items.add(new GridViewitems(R.drawable.homeicon, "anas", 0));
+
         return items;
     }
 }
