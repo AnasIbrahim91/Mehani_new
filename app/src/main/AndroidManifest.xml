@@ -25,6 +25,10 @@
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MyRequest"
+            android:label="@string/title_activity_my_request"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
