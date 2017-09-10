@@ -47,11 +47,14 @@ public class MyRequest extends AppCompatActivity {
 
         items_req = new ArrayList<>();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a4 + "", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a4 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Toast.makeText(getApplicationContext(),response.toString(), Toast.LENGTH_LONG).show();
+
                     JSONArray jsonObject = response.getJSONArray("AllFields");
+
                     for (int i = 0; i < jsonObject.length(); i++) {
 
                         items_req.add(new ListViewitem(

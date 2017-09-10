@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            //home
                             startActivity(new Intent(getApplicationContext(), Home.class));
                             finish();
 

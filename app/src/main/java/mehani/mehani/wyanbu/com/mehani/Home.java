@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.github.clans.fab.FloatingActionButton;
 
 public class Home extends AppCompatActivity {
     private GridView gridView;
@@ -34,6 +35,14 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         gridView = (GridView) findViewById(R.id.gridview);
+         FloatingActionButton mFab=(FloatingActionButton) findViewById(R.id.requestfab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), MyRequest.class));
+
+            }
+        });
 
         getgridview();
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
