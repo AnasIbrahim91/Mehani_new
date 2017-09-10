@@ -2,11 +2,8 @@ package mehani.mehani.wyanbu.com.mehani;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +24,7 @@ import java.util.List;
 public class MyRequest extends AppCompatActivity {
     private ListView listView;
     private List<ListViewitem> items_req;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +36,7 @@ public class MyRequest extends AppCompatActivity {
         getdata();
 
     }
+
     private void getdata() {
 
         final ProgressDialog progress = new ProgressDialog(this);
@@ -47,21 +46,20 @@ public class MyRequest extends AppCompatActivity {
 
         items_req = new ArrayList<>();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a4 , null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a4, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Toast.makeText(getApplicationContext(),response.toString(), Toast.LENGTH_LONG).show();
 
-                    JSONArray jsonObject = response.getJSONArray("AllFields");
+                    JSONArray jsonObject = response.getJSONArray("Orders");
 
                     for (int i = 0; i < jsonObject.length(); i++) {
 
                         items_req.add(new ListViewitem(
                                 jsonObject.getJSONObject(i).getString("id"),
-                                jsonObject.getJSONObject(i).getString("name"),
-                                jsonObject.getJSONObject(i).getString("description"),
-                                jsonObject.getJSONObject(i).getString("icon")
+                                jsonObject.getJSONObject(i).getString("field_name"),
+                                jsonObject.getJSONObject(i).getString("notes") + " - " + jsonObject.getJSONObject(i).getString("Created_date"),
+                                jsonObject.getJSONObject(i).getString("field_icon")
                         ));
 
                     }
