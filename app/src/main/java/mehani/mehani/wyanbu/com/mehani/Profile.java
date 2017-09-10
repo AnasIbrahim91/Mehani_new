@@ -38,8 +38,6 @@ public class Profile extends AppCompatActivity {
     private String id, name;
     private ListView listView;
     private List<ListViewitem> items;
-    private boolean checktext = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +62,7 @@ public class Profile extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView id = (TextView) view.findViewById(R.id.txid);
                 TextView name = (TextView) view.findViewById(R.id.txtTitle);
-                Intent intent = new Intent(getApplicationContext(), Profile.class);
+               // Intent intent = new Intent(getApplicationContext(), Profile.class);
                 //   intent.putExtra("id", id.getText().toString());
                 // intent.putExtra("name", name.getText().toString());
                 dialoggetrequest("Whats your problem of " + name.getText().toString(), id.getText().toString());
@@ -100,13 +98,7 @@ public class Profile extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.profilecoordin), "No input <-->", Snackbar.LENGTH_LONG).show();
                 } else {
                     postdatatodp(id, value, "1");
-                    if (checktext) {
-                        startActivity(new Intent(getApplicationContext(), MyRequest.class));
-                        checktext = false;
-                    } else {
-                        Snackbar.make(findViewById(R.id.profilecoordin), "Input Error <-->", Snackbar.LENGTH_LONG).show();
 
-                    }
                 }
 
             }
@@ -128,15 +120,32 @@ public class Profile extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(),response,1).show();
-                        if (response.equals("")) {
-                            checktext = true;
+                        String test = "";
+                        try {
+                            JSONObject json = new JSONObject(response);
+                             test = json.getString("Success");
+                            Toast.makeText(getApplicationContext(),test,Toast.LENGTH_LONG).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
+                        if (test.contains("تم حفظ")) {
+
+                                startActivity(new Intent(getApplicationContext(), MyRequest.class));
+
+                            } else {
+                                Snackbar.make(findViewById(R.id.profilecoordin), "Input Error <-->", Snackbar.LENGTH_LONG).show();
+
+                            }
+
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
 
                     }
                 }
