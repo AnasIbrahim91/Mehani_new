@@ -33,6 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:focusable="true"
+                android:entries="@array/City"
+
                 android:focusableInTouchMode="true"
                 android:spinnerMode="dialog" />
 
@@ -47,6 +49,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
+                    style="@style/EditText.Style"
+
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 

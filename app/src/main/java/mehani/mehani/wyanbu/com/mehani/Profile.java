@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,86 +35,95 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mehani.mehani.wyanbu.com.mehani.ListView.ListViewAdapter;
+import mehani.mehani.wyanbu.com.mehani.ListView.ListViewitem;
+import mehani.mehani.wyanbu.com.mehani.Network.network;
+
 public class Profile extends AppCompatActivity {
-    private String id, name;
-    private ListView listView;
-    private List<ListViewitem> items;
+
+    private String HomeID;
+
+    private ListView ProfilListView;
+    private List<ListViewitem> ProfilItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            id = "1";
-            name = "Error";
+            finish();
         } else {
-            id = extras.getString("id");
-            name = extras.getString("name");
+            HomeID = extras.getString("id");
         }
-        setTitle(name);
-        listView = (ListView) findViewById(R.id.listview);
 
-        getdata();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ProfilListView = (ListView) findViewById(R.id.profilelistview);
+
+        GetData();
+
+        ProfilListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView id = (TextView) view.findViewById(R.id.txid);
-                TextView name = (TextView) view.findViewById(R.id.txtTitle);
-               // Intent intent = new Intent(getApplicationContext(), Profile.class);
-                //   intent.putExtra("id", id.getText().toString());
-                // intent.putExtra("name", name.getText().toString());
-                dialoggetrequest("Whats your problem of " + name.getText().toString(), id.getText().toString());
 
+                TextView id = view.findViewById(R.id.txid);
+                TextView name = view.findViewById(R.id.txtTitle);
 
+                DialogGetRequest(getString(R.string.ProbloemDialog) + name.getText().toString(), id.getText().toString());
             }
         });
 
 
     }
 
-    private void dialoggetrequest(String name, final String id) {
+    private void DialogGetRequest(String Ordername, final String Orderid) {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
 
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
-        input.setHint("What is your prob");
+        input.setHint(getString(R.string.EdittextInputHint));
+
         final FrameLayout container = new FrameLayout(this);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = 25;
         params.rightMargin = 25;
+        input.setGravity(Gravity.START);
+        input.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
         input.setLayoutParams(params);
         container.addView(input);
-        alert.setTitle("put ypur problem");
-        alert.setMessage(name);
+
+        alert.setMessage(Ordername);
         alert.setView(container);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+        alert.setPositiveButton(R.string.Ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
 
                 if (value.trim().equals("")) {
-                    Snackbar.make(findViewById(R.id.profilecoordin), "No input <-->", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.profilecoordin), getString(R.string.No_input), Snackbar.LENGTH_LONG).show();
                 } else {
-                    postdatatodp(id, value, "1");
+                    PostDataToDb(Orderid, value, "1");
 
                 }
 
             }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.cancel();
             }
         });
+
         alert.show();
 
     }
 
-    private void postdatatodp(final String id, final String value, final String myid) {
+    private void PostDataToDb(final String Orderid, final String Ordervalue, final String myid) {
 
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, network.a3,
@@ -123,21 +133,20 @@ public class Profile extends AppCompatActivity {
                         String test = "";
                         try {
                             JSONObject json = new JSONObject(response);
-                             test = json.getString("Success");
-                            Toast.makeText(getApplicationContext(),test,Toast.LENGTH_LONG).show();
+                            test = json.getString("Success");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                         if (test.contains("تم حفظ")) {
+                            Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getApplicationContext(), MyRequest.class));
 
-                                startActivity(new Intent(getApplicationContext(), MyRequest.class));
+                        } else {
+                            Snackbar.make(findViewById(R.id.profilecoordin), getString(R.string.Input_error), Snackbar.LENGTH_LONG).show();
 
-                            } else {
-                                Snackbar.make(findViewById(R.id.profilecoordin), "Input Error <-->", Snackbar.LENGTH_LONG).show();
-
-                            }
+                        }
 
 
                     }
@@ -146,6 +155,8 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        Log.e("Error Profile :", error.toString());
+
 
                     }
                 }
@@ -153,8 +164,8 @@ public class Profile extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("field_id", id);
-                params.put("notes", value);
+                params.put("field_id", Orderid);
+                params.put("notes", Ordervalue);
                 params.put("app_user_id", myid);
                 return params;
             }
@@ -165,23 +176,23 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    private void getdata() {
+    private void GetData() {
 
         final ProgressDialog progress = new ProgressDialog(this);
-        progress.setTitle("Loading");
+        progress.setTitle(getString(R.string.loading));
         progress.setCancelable(false);
         progress.show();
 
-        items = new ArrayList<>();
+        ProfilItems = new ArrayList<>();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a2 + id, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, network.a2 + HomeID, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonObject = response.getJSONArray("AllFields");
                     for (int i = 0; i < jsonObject.length(); i++) {
 
-                        items.add(new ListViewitem(
+                        ProfilItems.add(new ListViewitem(
                                 jsonObject.getJSONObject(i).getString("id"),
                                 jsonObject.getJSONObject(i).getString("name"),
                                 jsonObject.getJSONObject(i).getString("description"),
@@ -189,26 +200,26 @@ public class Profile extends AppCompatActivity {
                         ));
 
                     }
-                    ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext(), R.layout.list_item, items);
-                    listView.setAdapter(listViewAdapter);
+                    ListViewAdapter listViewAdapter = new ListViewAdapter(getApplicationContext(), R.layout.list_item, ProfilItems);
+                    ProfilListView.setAdapter(listViewAdapter);
 
                     progress.dismiss();
-
 
                 } catch (JSONException e) {
                     progress.dismiss();
 
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "No Data ", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.profilecoordin), getString(R.string.no_data), Snackbar.LENGTH_LONG).show();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Error Profile :", error.toString());
+                Snackbar.make(findViewById(R.id.profilecoordin), getString(R.string.data_error), Snackbar.LENGTH_LONG).show();
+
                 progress.dismiss();
-
-
             }
         });
         RequestQueue queue = Volley.newRequestQueue(this);

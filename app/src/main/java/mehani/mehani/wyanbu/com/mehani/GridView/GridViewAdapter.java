@@ -1,4 +1,4 @@
-package mehani.mehani.wyanbu.com.mehani;
+package mehani.mehani.wyanbu.com.mehani.GridView;
 
 
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import mehani.mehani.wyanbu.com.mehani.R;
 
 /**
  * Created by Anas on 9/8/2017.

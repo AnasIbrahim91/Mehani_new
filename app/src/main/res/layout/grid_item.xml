@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     android:background="#d9d9d9"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
 
+    android:paddingBottom="5dp"
+    android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/imageView_grid"
@@ -24,9 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:text="Name"
-        android:textColor="#000"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000"
         android:textStyle="bold" />
 
     <TextView

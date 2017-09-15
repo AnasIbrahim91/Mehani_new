@@ -1,8 +1,5 @@
-package mehani.mehani.wyanbu.com.mehani;
+package mehani.mehani.wyanbu.com.mehani.Network;
 
-/**
- * Created by Anas on 9/8/2017.
- */
 
 public class network {
     public static final String a1="http://mehani.wyanbu.com/Json/GetCareers";
